@@ -1,0 +1,31 @@
+version: "2.1"
+services:
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Fortaleza
+      - URL=ufma.br
+      - SUBDOMAINS=eleicao
+      - ONLY_SUBDOMAINS=true
+      - VALIDATION=http
+      - EMAIL=suporte@abtms.org.br 
+    volumes:
+      - ./config:/config
+      - ./subdomain/eleicao.subdomain.conf:/config/nginx/proxy-confs/eleicao.subdomain.conf
+    ports:
+      - 443:443
+      - 80:80 
+    restart: unless-stopped
+    networks:
+      - swag-network
+
+networks:
+  swag-network:
+        driver: bridge
+
+    
